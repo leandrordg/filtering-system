@@ -129,6 +129,7 @@ const SUB_CATEGORIES = [
 const DEFAULT_CUSTOM_PRICE = [0, 1000] as [number, number];
 
 export default function Page() {
+  const [showFilters, setShowFilters] = useState(false);
   const [filter, setfilter] = useState<ProductState>({
     color: ["white", "beige", "blue", "green", "purple"],
     price: { isCustom: false, range: DEFAULT_CUSTOM_PRICE },
@@ -197,14 +198,17 @@ export default function Page() {
         <div className="flex items-center">
           <DropdownMenu>
             <DropdownMenuTrigger className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-              Filtrar
+              {
+                SORT_OPTIONS.find((option) => option.value === filter.sort)
+                  ?.name
+              }
               <ChevronDownIcon className="-mr-1 ml-1 size-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent sideOffset={15} align="start">
+            <DropdownMenuContent sideOffset={15} align="end" className="ml-4">
               {SORT_OPTIONS.map((option) => (
                 <button
                   key={option.name}
-                  className={cn("text-left w-full block px-4 py-2 text-sm", {
+                  className={cn("text-left w-full block px-4 py-2 text-sm rounded-sm", {
                     "text-gray-900 bg-gray-100": option.value === filter.sort,
                     "text-gray-500": option.value !== filter.sort,
                   })}
@@ -223,7 +227,10 @@ export default function Page() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <button className="p-2 text-gray-400 hover:text-gray-500 -mr-2 ml-4 sm:ml-6 lg:hidden">
+          <button
+            onClick={() => setShowFilters((prev) => !prev)}
+            className="p-2 text-gray-400 hover:text-gray-500 -mr-2 ml-4 sm:ml-6 lg:hidden"
+          >
             <FilterIcon className="size-5" />
           </button>
         </div>
@@ -232,7 +239,7 @@ export default function Page() {
       <section className="pb-24 pt-6">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
           {/* Filters */}
-          <div className="hidden lg:block">
+          <div className={cn("hidden lg:block", showFilters && "block")}>
             <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
               {SUB_CATEGORIES.map((category) => (
                 <li key={category.name}>

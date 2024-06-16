@@ -1,12 +1,17 @@
+import Image from "next/image";
+
 import { type Product } from "@/db";
 
 export function Product({ product }: { product: Product }) {
   return (
     <div className="group relative">
       <div className="aspect-square w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-auto group-hover:opacity-75 lg:h-80">
-        <img
+        <Image
           src={product.imageId}
           alt="Imagem do Produto"
+          width={500}
+          height={500}
+          loading="lazy"
           className="w-full h-full object-cover object-center"
         />
       </div>
