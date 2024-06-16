@@ -140,7 +140,7 @@ export default function Page() {
     queryKey: ["products"],
     queryFn: async () => {
       const { data } = await axios.post<QueryResult<TProduct>[]>(
-        "http://localhost:3000/api/products",
+        "https://filtering-system-six.vercel.app/api/products",
         {
           filter: {
             sort: filter.sort,
